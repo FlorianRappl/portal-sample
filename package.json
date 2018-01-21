@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently --kill-others \"npm run api\" \"npm run app\"",
+    "install-all": "node src/install.js",
+    "build-all-widgets": "node src/build-widgets.js",
     "api": "node src/api/index.js",
     "app": "webpack-dev-server --hot --inline",
     "build": "cross-env NODE_ENV=production webpack -p",
