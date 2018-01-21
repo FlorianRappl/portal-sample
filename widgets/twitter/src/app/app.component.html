@@ -1,0 +1,10 @@
+<h3>Twitter</h3>
+<main>
+  This includes styling etc.
+</main>
+<ul>
+  <li *ngFor="let item of results; let i = index">
+    {{i}} from {{item.userId}} <b>{{item.title}}</b>
+    <p>{{item.body}}</p>
+  </li>
+</ul>

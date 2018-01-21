@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "allowUnreachableCode": false,
+      "alwaysStrict": true,
+      "strictNullChecks": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "module": "commonjs",
+      "target": "es5",
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "lib": [
+        "es2015",
+        "dom"
+      ],
+      "jsx": "react",
+      "suppressImplicitAnyIndexErrors": true,
+      "allowSyntheticDefaultImports": true
+    },
+    "include": [
+      "./src/**/*"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }
+  
