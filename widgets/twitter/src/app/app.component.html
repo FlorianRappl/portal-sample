@@ -4,7 +4,7 @@
 </main>
 <ul>
   <li *ngFor="let item of results; let i = index">
-    {{i}} from {{item.userId}} <b>{{item.title}}</b>
+    {{i + 1}} from {{item.userId}} <b>{{item.title}}</b>
     <p>{{item.body}}</p>
   </li>
 </ul>
