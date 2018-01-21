@@ -1,0 +1,16 @@
+{
+  "features": {
+    "ALLOW_CALCULATOR": "Enables the calculator widget",
+    "ALLOW_WEATHER": "Enables the weather widget",
+    "ALLOW_TWITTER": "Enables the twitter widget"
+  },
+  "rules": [{
+    "when": {
+      "name": "^(?!.*test).*$"
+    },
+    "then": {
+      "enable": ["ALLOW_CALCULATOR"],
+      "disable": []
+    }
+  }]
+}

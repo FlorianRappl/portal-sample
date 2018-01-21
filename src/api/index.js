@@ -5,6 +5,7 @@ const routes = require('./routes');
 const app = express();
 const options = {
   port: 8081,
+  featurePath: path.resolve(__dirname, '..', 'features.json'),
   widgetDir: path.resolve(__dirname, '..', '..', 'widgets'),
 }
 
