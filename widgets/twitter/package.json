@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Florian Rappl (Angular)",
+  "feature": "ALLOW_TWITTER",
   "license": "MIT",
   "dependencies": {
     "@angular/common": "~4.2.0",

@@ -12,5 +12,11 @@
       "enable": ["ALLOW_CALCULATOR"],
       "disable": []
     }
+  }, {
+    "when": {},
+    "then": {
+      "enable": ["ALLOW_WEATHER", "ALLOW_TWITTER"],
+      "disable": []
+    }
   }]
 }
