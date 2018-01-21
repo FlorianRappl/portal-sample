@@ -12,7 +12,13 @@ Since this is a POC the code is not optimized (e.g., the possibility of extracti
 
 ## Architecture
 
-(tbd)
+The architecture of the portal application has been derived in such a way to decouple widgets as much as possible from the main application. Ideally, a widget could be a plain component library that additionally exposes one more function. Realistically, it will be a dedicated npm package that either consumes a component library, or was converted from an existing application.
+
+The following diagram explains the sample by introducing the exposed REST services (in our sample its just one service, but in reality it could be two) along with the main application.
+
+![Portal Architecture](architecture.png)
+
+While the POC reads the widgets from the file system, a real implementation may get the packages from an internal feed (or some other data source, potentially connected to staging for different environments).
 
 ## Building the Code
 

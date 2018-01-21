@@ -1,0 +1,11 @@
+@startuml
+skinparam monochrome true
+
+[Widget Service] ..> [Widget Feed] : access
+[Widget] ..> [Widget Feed] : publish
+[Widget Service] --> [Rights Service]
+[Portal App] --> [Widget Service]
+[Portal App] ..> [Widget] : run
+[Portal App] --> () "Portal API" : declare
+[Widget] --> () "Portal API" : use
+@enduml
