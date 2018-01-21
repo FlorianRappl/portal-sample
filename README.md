@@ -16,7 +16,50 @@ Since this is a POC the code is not optimized (e.g., the possibility of extracti
 
 ## Building the Code
 
-(tbd)
+Before actually building the code we need to resolve all dependencies.
+
+We start by invoking
+
+```bash
+npm install
+```
+
+in the root directory of the repository. Furthermore, this command needs to be run for all widgets as well. There is also a simpler way to do it - just by running the following command:
+
+```bash
+npm run install-all
+```
+
+To actually build the portal sample (or *any* widget) we can run:
+
+```bash
+npm run build
+```
+
+Note that actually having a live demo of the sample should first build *all* widgets (otherwise the widgets, which have not been build, will be missing in the overview) and then start the development server. Like installing all npm packages there is a shortcut command from the root directory to build *all* widgets:
+
+```bash
+npm run build-all-widgets
+```
+
+Actually starting the development server is as simple as running:
+
+```bash
+npm start
+```
+
+This command will run two commands concurrently, namely starting the (mock) API server and the webpack dev server. The latter supports hot module reloading, but only for its own contents and not for a widget.
+
+## What's Missing
+
+Obviously, the given repo is just a start focusing on the main challenge. Things that would need to be tackled next (and individually) are
+
+- provide a real widget service, maybe coupled to a (private) npm feed,
+- include i18n, especially give widgets the possibilty to use it directly or use a custom solution,
+- solve the issue of (shared) external libraries, e.g., that multiple widgets use Angular without bundling it directly to the widget (could greatly help to reduce the size of widgets),
+- tooling to debug/run widgets locally,
+- increase the portal API surface, and
+- provide boilerplates (or even npm packages) for widget projects (at least React, vanilla JS, but potentially also Angular and AngularJS).
 
 ## License
 
