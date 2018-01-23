@@ -8,16 +8,16 @@ interface TwitterPost {
 }
 
 @Component({
-  selector: '.tile-root',
+  selector: '#angular-temp-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   results: Array<TwitterPost>;
- 
+
   // Inject HttpClient into your component or service.
   constructor(private http: Http) {}
- 
+
   ngOnInit(): void {
     // Make the HTTP request:
     this.http.get('https://jsonplaceholder.typicode.com/posts').subscribe(data => {

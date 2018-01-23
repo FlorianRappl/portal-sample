@@ -6,10 +6,17 @@ if (process.env.ENV === 'production') {
   enableProdMode();
 }
 
+let queue = Promise.resolve();
+
 export function setup(portal: any) {
   portal.registerTile('link', (node: HTMLElement) => {
-    node.classList.add('tile-root');
-    platformBrowserDynamic().bootstrapModule(AppModule)
-      .catch(err => console.log(err));
+    queue = queue.then(() => {
+      node.id = 'angular-temp-root';
+      return platformBrowserDynamic().bootstrapModule(AppModule)
+        .catch(err => console.log(err))
+        .then(() => {
+          node.id = undefined;
+        });
+    });
   });
 }
