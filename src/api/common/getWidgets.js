@@ -27,7 +27,8 @@ module.exports = function (baseDir, features) {
                             content: widgetContent,
                             version: package.version,
                             name: package.name,
-                            author: package.author
+                            author: package.author,
+                            dependencies: package.peerDependencies || {},
                           });
                         }
                       }
