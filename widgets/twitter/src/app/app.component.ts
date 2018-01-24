@@ -8,20 +8,27 @@ interface TwitterPost {
 }
 
 @Component({
-  selector: '#angular-temp-root',
+  selector: '#angular-twitter-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  count: number;
   results: Array<TwitterPost>;
 
   // Inject HttpClient into your component or service.
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+    this.count = 0;
+  }
 
   ngOnInit(): void {
     // Make the HTTP request:
     this.http.get('https://jsonplaceholder.typicode.com/posts').subscribe(data => {
       this.results = (<Array<TwitterPost>>data.json()).filter((_, i) => i < 5);
     });
+  }
+
+  public incrementCount = () => {  
+    this.count++;
   }
 }
