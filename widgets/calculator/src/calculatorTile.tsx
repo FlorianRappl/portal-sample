@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 export interface CalculatorTileProps {
   rows: number;
@@ -48,6 +49,7 @@ export class CalculatorTile extends React.Component<CalculatorTileProps, Calcula
         <div><input value={y} onChange={this.changeY} /></div>
         <div>=</div>
         <div><output>{res.toString()}</output></div>
+        <div><Link to="/calculator/settings">Calculator settings</Link></div>
       </div>
     );
   }
