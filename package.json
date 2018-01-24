@@ -24,11 +24,13 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "styled-components": "^2.4.0"
   },
   "devDependencies": {
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
+    "@types/react-router-dom": "^4.2.3",
     "awesome-typescript-loader": "^3.4.1",
     "concurrently": "^3.5.1",
     "cross-env": "^5.1.3",
