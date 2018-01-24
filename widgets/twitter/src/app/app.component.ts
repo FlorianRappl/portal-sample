@@ -8,7 +8,7 @@ interface TwitterPost {
 }
 
 @Component({
-  selector: '#angular-twitter-app',
+  selector: '#zeisslet',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
