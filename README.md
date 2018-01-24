@@ -20,6 +20,8 @@ The following diagram explains the sample by introducing the exposed REST servic
 
 While the POC reads the widgets from the file system, a real implementation may get the packages from an internal feed (or some other data source, potentially connected to staging for different environments).
 
+Importantly, external code has always been placed in error boundaries, i.e., external components have to be equipped with `componentDidCatch` and external functions need to be placed in `try`-`catch` blocks. Yes, this is indeed unfortunate, but we should never risk to crash the portal application by one programming mistake in a single widget.
+
 ## Building the Code
 
 Before actually building the code we need to resolve all dependencies.
@@ -55,6 +57,10 @@ npm start
 ```
 
 This command will run two commands concurrently, namely starting the (mock) API server and the webpack dev server. The latter supports hot module reloading, but only for its own contents and not for a widget.
+
+## Demo Time
+
+(tbd)
 
 ## What's Missing
 
