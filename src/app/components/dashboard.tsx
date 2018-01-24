@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { TileComponentProps, PortalApi } from '../api';
+import { ErrorBoundary } from './errorBoundary';
 
 export interface DashboardProps {
   tiles: {
-    [name: string]: {
-      Component: React.ComponentType<TileComponentProps>;
-      api: PortalApi;
-    }
+    [name: string]: React.ComponentType<Partial<TileComponentProps>>;
   };
 }
 
@@ -17,13 +15,12 @@ export class Dashboard extends React.Component<DashboardProps> {
       <div>
         <h2>Dashboard View</h2>
         {Object.keys(tiles).map(name => {
-          const tile = tiles[name];
-          const Component = tile.Component;
+          const Tile = tiles[name];
 
           return (
-            <div key={name}>
-              <Component columns={1} rows={1} portal={tile.api} />
-            </div>
+            <ErrorBoundary key={name}>
+              <Tile columns={1} rows={1} />
+            </ErrorBoundary>
           );
         })}
       </div>

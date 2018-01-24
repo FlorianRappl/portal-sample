@@ -1,61 +1,26 @@
 import * as React from 'react';
-import { Dashboard } from './dashboard';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Loading } from './loading';
-import { AppList } from './appList';
+import { Home } from './home';
+import { Router } from './router';
+import { NotFound } from './notFound';
 import { Container } from './container';
-import { MiniAppApi, PortalApi, TileComponentProps } from '../api';
+import { MiniAppApi, MiniAppPackage, PortalApi, TileComponentProps, PageComponentProps, BaseComponentProps } from '../api';
+import { loadWidget } from '../loadWidget';
+import { wrapComponent, Arg } from '../wrapComponent';
 
 export interface AppProps {
   apiUrl: string;
 }
 
-interface MiniAppPackage {
-  version: string;
-  name: string;
-  author: string;
-  content: string;
+export interface ComponentRegistry<T> {
+  [name: string]: React.ComponentType<Partial<T>>;
 }
 
 export interface AppState {
   apps?: Array<MiniAppPackage>;
-  tiles: {
-    [name: string]: {
-      api: PortalApi;
-      Component: React.ComponentType<TileComponentProps>;
-    };
-  };
-}
-
-function requireModule(moduleName: string) {
-  switch (moduleName) {
-    case 'react':
-      return require('react');
-    default:
-      return undefined;
-  }
-}
-
-function importLib(app: MiniAppPackage): MiniAppApi {
-  const mod = {
-    exports: undefined,
-  };
-  const importer = new Function('module', 'exports', 'require', app.content);
-  importer(mod, {}, requireModule);
-  return mod.exports || {
-    setup() {}
-  };
-}
-
-interface RenderCallback {
-  (element: HTMLElement, props: TileComponentProps): void;
-}
-
-type TileArg = React.ComponentType<TileComponentProps> | RenderCallback;
-
-function wrapTileComponent(render: RenderCallback) {
-  return (props: TileComponentProps) => (
-    <div ref={node => node && render(node, props)} />
-  );
+  tiles: ComponentRegistry<TileComponentProps>;
+  pages: ComponentRegistry<PageComponentProps>;
 }
 
 export class App extends React.Component<AppProps, AppState> {
@@ -66,31 +31,45 @@ export class App extends React.Component<AppProps, AppState> {
     this.state = {
       apps: undefined,
       tiles: {},
+      pages: {},
     };
   }
 
   private createApi(_app: MiniAppPackage): PortalApi {
+    const register = <T extends BaseComponentProps>(obj: ComponentRegistry<T>, key: string, value: Arg<T>): ComponentRegistry<T> => {
+      const Component = wrapComponent(value, api);
+      return {
+        ...obj,
+        [key]: Component,
+      };
+    };
+    const unregister = <T extends BaseComponentProps>(obj: ComponentRegistry<T>, key: string): ComponentRegistry<T> => {
+      const { [key]: _unused, ...rest } = obj;
+      return rest;
+    };
     const api = {
-      registerTile: (name: string, arg: TileArg) => {
-        const { tiles } = this.state;
-        const argAsReact = arg as React.ComponentType<TileComponentProps>;
-        const argAsRender = arg as RenderCallback;
-        const newTile = typeof argAsReact.prototype.render === 'function' || argAsReact.displayName ? argAsReact : wrapTileComponent(argAsRender);
+      registerPage: (route: string, arg: Arg<PageComponentProps>) => {
+        const { pages } = this.state;
         this.setState({
-          tiles: {
-            ...tiles,
-            [name]: {
-              Component: newTile,
-              api,
-            },
-          }
-        })
+          pages: register(pages, route, arg),
+        });
+      },
+      unregisterPage: (route: string) => {
+        const { pages } = this.state;
+        this.setState({
+          pages: unregister(pages, route),
+        });
+      },
+      registerTile: (name: string, arg: Arg<TileComponentProps>) => {
+        const { tiles } = this.state;
+        this.setState({
+          tiles: register(tiles, name, arg),
+        });
       },
       unregisterTile: (name: string) => {
         const { tiles } = this.state;
-        const { [name]: _unused, ...rest } = tiles;
         this.setState({
-          tiles: rest,
+          tiles: unregister(tiles, name),
         });
       }
     };
@@ -100,7 +79,7 @@ export class App extends React.Component<AppProps, AppState> {
   private initApps(apps: Array<MiniAppPackage>) {
     for (const app of apps) {
       const portal = this.createApi(app);
-      importLib(app).setup(portal);
+      loadWidget(app).setup(portal);
     }
 
     this.setState({
@@ -121,17 +100,25 @@ export class App extends React.Component<AppProps, AppState> {
     this.mounted = false;
   }
 
+  private getHome(apps: Array<MiniAppPackage>) {
+    const { tiles } = this.state;
+    return () => <Home apps={apps} tiles={tiles} />;
+  }
+
   render() {
-    const { apps, tiles } = this.state;
+    const { apps, pages } = this.state;
     return (
-      <div>
+      <BrowserRouter>
         { apps ? (
           <Container>
-            <AppList apps={apps} />
-            <Dashboard tiles={tiles} />
+            <Switch>
+              <Route exact path="/" component={this.getHome(apps)} />
+              <Router pages={pages} />
+              <Route path="/:page" component={NotFound} />
+            </Switch>
           </Container>
-         ) : <Loading /> }
-      </div>
+        ) : <Loading /> }
+      </BrowserRouter>
     );
   }
 }
