@@ -8,6 +8,15 @@ import { MiniAppApi, MiniAppPackage, PortalApi, TileComponentProps, PageComponen
 import { loadWidget } from '../loadWidget';
 import { wrapComponent, Arg } from '../wrapComponent';
 
+interface EventListeners {
+  [event: string]: Array<{
+    (arg: any): void;
+  }>;
+}
+
+const sharedData = {};
+const eventListeners: EventListeners = {};
+
 export interface AppProps {
   libs: Array<MiniAppApi>;
 }
@@ -30,7 +39,7 @@ export class App extends React.Component<AppProps, AppState> {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { libs } = this.props;
 
     for (const lib of libs) {
@@ -51,7 +60,39 @@ export class App extends React.Component<AppProps, AppState> {
       const { [key]: _unused, ...rest } = obj;
       return rest;
     };
-    const api = {
+    const ownedItems: Array<PropertyKey> = [];
+    const api: PortalApi = {
+      data: window['Proxy'] ? new Proxy(sharedData, {
+        get(target, name) {
+          return target[name];
+        },
+        set(target, name, value) {
+          if (!(name in target)) {
+            ownedItems.push(name);
+          }
+
+          if (ownedItems.indexOf(name) !== -1) {
+            target[name] = value;
+          }
+
+          return true;
+        }
+      }) : sharedData,
+      emit<T>(type: string, arg: T) {
+        const callbacks = eventListeners[type] || [];
+
+        for (const callback of callbacks) {
+          callback(arg);
+        }
+      },
+      on<T>(type: string, callback: (arg: T) => void) {
+        const callbacks = eventListeners[type] || [];
+        eventListeners[type] = [...callbacks, callback];
+      },
+      off<T>(type: string, callback: (arg: T) => void) {
+        const callbacks = eventListeners[type] || [];
+        eventListeners[type] = callbacks.filter(cb => cb !== callback);
+      },
       registerPage: (route: string, arg: Arg<PageComponentProps>) => {
         this.setState(({ pages }) => ({
           pages: register(pages, route, arg),

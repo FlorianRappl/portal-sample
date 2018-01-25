@@ -19,6 +19,12 @@ export interface PageComponentProps extends BaseComponentProps {
 }
 
 export interface PortalApi {
+  emit<T>(type: string, arg: T): void;
+  on<T>(type: string, callback: (arg: T) => void): void;
+  off<T>(type: string, callback: (arg: T) => void): void;
+  data: {
+    [name: string]: any;
+  };
   registerPage(route: string, render: (element: HTMLElement, props: PageComponentProps) => void): void;
   registerPage(route: string, Component: React.ComponentType<PageComponentProps>): void;
   unregisterPage(route: string): void;
