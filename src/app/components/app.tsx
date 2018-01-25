@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Loading } from './loading';
 import { Home } from './home';
 import { Router } from './router';
 import { NotFound } from './notFound';
@@ -10,7 +9,7 @@ import { loadWidget } from '../loadWidget';
 import { wrapComponent, Arg } from '../wrapComponent';
 
 export interface AppProps {
-  apiUrl: string;
+  libs: Array<MiniAppApi>;
 }
 
 export interface ComponentRegistry<T> {
@@ -18,24 +17,29 @@ export interface ComponentRegistry<T> {
 }
 
 export interface AppState {
-  apps?: Array<MiniAppPackage>;
   tiles: ComponentRegistry<TileComponentProps>;
   pages: ComponentRegistry<PageComponentProps>;
 }
 
 export class App extends React.Component<AppProps, AppState> {
-  private mounted = false;
-
   constructor(props: AppProps) {
     super(props);
     this.state = {
-      apps: undefined,
       tiles: {},
       pages: {},
     };
   }
 
-  private createApi(_app: MiniAppPackage): PortalApi {
+  componentDidMount() {
+    const { libs } = this.props;
+
+    for (const lib of libs) {
+      const portal = this.createApi();
+      lib.setup(portal);
+    }
+  }
+
+  private createApi(): PortalApi {
     const register = <T extends BaseComponentProps>(obj: ComponentRegistry<T>, key: string, value: Arg<T>): ComponentRegistry<T> => {
       const Component = wrapComponent(value, api);
       return {
@@ -49,75 +53,46 @@ export class App extends React.Component<AppProps, AppState> {
     };
     const api = {
       registerPage: (route: string, arg: Arg<PageComponentProps>) => {
-        const { pages } = this.state;
-        this.setState({
+        this.setState(({ pages }) => ({
           pages: register(pages, route, arg),
-        });
+        }));
       },
       unregisterPage: (route: string) => {
-        const { pages } = this.state;
-        this.setState({
+        this.setState(({ pages }) => ({
           pages: unregister(pages, route),
-        });
+        }));
       },
       registerTile: (name: string, arg: Arg<TileComponentProps>) => {
-        const { tiles } = this.state;
-        this.setState({
+        this.setState(({ tiles }) => ({
           tiles: register(tiles, name, arg),
-        });
+        }));
       },
       unregisterTile: (name: string) => {
-        const { tiles } = this.state;
-        this.setState({
+        this.setState(({ tiles }) => ({
           tiles: unregister(tiles, name),
-        });
+        }));
       }
     };
     return api;
   }
 
-  private initApps(apps: Array<MiniAppPackage>) {
-    for (const app of apps) {
-      const portal = this.createApi(app);
-      loadWidget(app).setup(portal);
-    }
-
-    this.setState({
-      apps,
-    });
-  }
-
-  componentDidMount() {
-    const { apiUrl } = this.props;
-    this.mounted = true;
-
-    fetch(`${apiUrl}/widget`, { method: 'GET' })
-      .then(res => res.json())
-      .then(res => this.mounted && this.initApps(res.items));
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  private getHome(apps: Array<MiniAppPackage>) {
+  private getHome() {
+    const { libs } = this.props;
     const { tiles } = this.state;
-    return () => <Home apps={apps} tiles={tiles} />;
+    return () => <Home libs={libs} tiles={tiles} />;
   }
 
   render() {
-    const { apps, pages } = this.state;
+    const { pages } = this.state;
     return (
       <BrowserRouter>
-        { apps ? (
-          <Container>
-            <Switch>
-              <Route exact path="/" component={this.getHome(apps)} />
-              <Router pages={pages} />
-              <Route path="/:page" component={NotFound} />
-            </Switch>
-          </Container>
-        ) : <Loading /> }
+        <Container>
+          <Switch>
+            <Route exact path="/" component={this.getHome()} />
+            <Router pages={pages} />
+            <Route path="/:page" component={NotFound} />
+          </Switch>
+        </Container>
       </BrowserRouter>
     );
   }

@@ -27,13 +27,13 @@ export interface PortalApi {
   unregisterTile(name: string): void;
 }
 
-export interface MiniAppApi {
-  setup(portal: PortalApi): void;
-}
-
 export interface MiniAppPackage {
   version: string;
   name: string;
   author: string;
   content: string;
+}
+
+export interface MiniAppApi extends Partial<MiniAppPackage> {
+  setup(portal: PortalApi): void;
 }

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AppList } from './appList';
 import { Dashboard } from './dashboard';
-import { MiniAppPackage, TileComponentProps, PortalApi } from '../api';
+import { MiniAppApi, TileComponentProps, PortalApi } from '../api';
 
 export interface HomeProps {
-  apps: Array<MiniAppPackage>;
+  libs: Array<MiniAppApi>;
   tiles: {
     [name: string]: React.ComponentType<Partial<TileComponentProps>>;
   };
@@ -12,10 +12,10 @@ export interface HomeProps {
 
 export class Home extends React.Component<HomeProps> {
   render() {
-    const { apps, tiles } = this.props;
+    const { libs, tiles } = this.props;
     return (
       <div>
-        <AppList apps={apps} />
+        <AppList libs={libs} />
         <Dashboard tiles={tiles} />
       </div>
     );

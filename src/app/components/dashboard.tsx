@@ -11,6 +11,7 @@ export interface DashboardProps {
 export class Dashboard extends React.Component<DashboardProps> {
   render() {
     const { tiles } = this.props;
+
     return (
       <div>
         <h2>Dashboard View</h2>

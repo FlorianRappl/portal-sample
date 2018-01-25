@@ -19,7 +19,7 @@ export function loadWidget(app: MiniAppPackage): MiniAppApi {
   };
   const importer = new Function('module', 'exports', 'require', app.content);
   importer(mod, {}, requireModule);
-  return mod.exports || {
+  return Object.assign(mod.exports || {
     setup() {}
-  };
+  }, app);
 }
