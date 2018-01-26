@@ -4,7 +4,6 @@ const pkg = require('./package.json');
 const env = process.env.NODE_ENV || 'development';
 const production = env === 'production';
 const develop = !production;
-const augment = require(`./webpack.config.${develop ? 'dev' : 'prod'}.js`);
 
 const dist = path.join(__dirname, 'dist');
 const src = path.join(__dirname, 'src');
@@ -29,7 +28,7 @@ function getExternals() {
   return Object.keys(pkg.peerDependencies || {});
 }
 
-module.exports = augment({
+module.exports = {
   devtool: develop && 'source-map',
 
   entry: {
@@ -68,4 +67,4 @@ module.exports = augment({
       'process.env.NODE_ENV': JSON.stringify(env),
     }),
   ]),
-});
+};

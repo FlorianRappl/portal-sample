@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/widget.js",
   "scripts": {
+    "start": "webpack-dev-server --config ../../tools/webpack.debug.js",
     "build": "cross-env NODE_ENV=production webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
