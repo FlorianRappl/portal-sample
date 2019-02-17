@@ -40,6 +40,7 @@
     "typescript": "^3.3.3",
     "virtual-module-webpack-plugin": "^0.4.1",
     "webpack": "^4.29.4",
+    "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
   }
 }
