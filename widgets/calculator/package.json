@@ -12,18 +12,21 @@
   "feature": "ALLOW_CALCULATOR",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^16.2.0",
+    "react": "^16.8.2",
     "react-router-dom": "^4.2.2",
-    "styled-components": "^2.4.0"
+    "styled-components": "^4.1.3"
   },
   "devDependencies": {
-    "@types/react": "^16.0.34",
-    "awesome-typescript-loader": "^3.4.1",
+    "@types/react": "^16.8.3",
+    "awesome-typescript-loader": "^5.2.1",
     "cross-env": "^5.1.3",
-    "html-webpack-plugin": "^2.30.1",
-    "typescript": "^2.6.2",
-    "virtual-module-webpack-plugin": "^0.3.0",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1"
+    "html-webpack-plugin": "^3.2.0",
+    "typescript": "^3.3.3",
+    "react": "^16.8.2",
+    "react-router-dom": "^4.2.2",
+    "styled-components": "^4.1.3",
+    "virtual-module-webpack-plugin": "^0.4.1",
+    "webpack": "^4.29.4",
+    "webpack-dev-server": "^3.1.14"
   }
 }
