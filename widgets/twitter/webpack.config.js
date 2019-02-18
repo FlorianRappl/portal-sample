@@ -1,31 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('./package.json');
 const env = process.env.NODE_ENV || 'development';
 const develop = env === 'development';
-const production = env === 'production';
 
 const dist = path.join(__dirname, 'dist');
 const src = path.join(__dirname, 'src');
 
 function getPlugins(plugins = []) {
-  if (production) {
-    plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        mangle: {
-          keep_fnames: true
-        },
-        compress: {
-          warnings: false,
-          screw_ie8: true,
-        },
-      }),
-      new webpack.optimize.OccurrenceOrderPlugin()
-    );
-  }
-
   return plugins;
 }
 
@@ -64,7 +47,7 @@ module.exports = {
         loaders: [
           {
             loader: 'awesome-typescript-loader',
-            options: { 
+            options: {
               configFileName: path.resolve(__dirname, 'tsconfig.json')
             }
           } , 'angular2-template-loader'
@@ -88,7 +71,7 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: src,
-        loader: ExtractTextPlugin.extract({ 
+        loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
           loader: 'css-loader?sourceMap'
         })

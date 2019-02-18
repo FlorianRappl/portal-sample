@@ -25,13 +25,13 @@ class ForeignComponentContainer<T extends BaseComponentProps> extends React.Comp
 
 function wrapReactComponent<T extends BaseComponentProps>(Component: React.ComponentType<T>, api: PortalApi): React.ComponentType<Partial<T>> {
   return (props: Partial<T>) => (
-    <Component {...props} portal={api} />
+    <Component {...props as any} portal={api} />
   );
 }
 
 function wrapForeignComponent<T extends BaseComponentProps>(render: RenderCallback<T>, api: PortalApi): React.ComponentType<Partial<T>> {
   return (props: Partial<T>) => (
-    <ForeignComponentContainer {...props} render={render} portal={api} />
+    <ForeignComponentContainer {...props} render={render as any} portal={api} />
   );
 }
 

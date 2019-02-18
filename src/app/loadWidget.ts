@@ -1,13 +1,16 @@
+import * as react from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as styledComponents from 'styled-components';
 import { MiniAppApi, MiniAppPackage } from './api';
 
 function requireModule(moduleName: string) {
   switch (moduleName) {
     case 'react':
-      return require('react');
+      return react;
     case 'react-router-dom':
-      return require('react-router-dom');
+      return reactRouterDom;
     case 'styled-components':
-      return require('styled-components');
+      return styledComponents;
     default:
       return undefined;
   }

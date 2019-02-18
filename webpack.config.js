@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pkg = require('./package.json');
 const env = process.env.NODE_ENV || 'development';
 const develop = env === 'development';
-const production = env === 'production';
 const port = process.env.PORT || 8080;
 
 const dist = path.join(__dirname, 'dist');
@@ -26,18 +25,6 @@ function getPlugins(plugins = []) {
       title: `${pkg.name}, version ${pkg.version}-${env}`,
     })
   );
-
-  if (production) {
-    plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false,
-          screw_ie8: true,
-        },
-      }),
-      new webpack.optimize.OccurrenceOrderPlugin()
-    );
-  }
 
   return plugins;
 }

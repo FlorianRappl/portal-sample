@@ -8,6 +8,7 @@
       "strictNullChecks": true,
       "noUnusedParameters": true,
       "noImplicitReturns": true,
+      "skipLibCheck": true,
       "module": "commonjs",
       "target": "es5",
       "moduleResolution": "node",
@@ -28,4 +29,3 @@
       "node_modules"
     ]
   }
-  

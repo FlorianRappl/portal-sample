@@ -10,6 +10,7 @@
       "noImplicitReturns": true,
       "module": "commonjs",
       "target": "es5",
+      "skipLibCheck": true,
       "moduleResolution": "node",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
@@ -28,4 +29,3 @@
       "node_modules"
     ]
   }
-  

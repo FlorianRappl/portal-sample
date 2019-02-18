@@ -19,6 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/styled-components": "^4.1.10",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "react": "^16.8.2",
