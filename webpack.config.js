@@ -32,6 +32,8 @@ function getPlugins(plugins = []) {
 module.exports = {
   devtool: develop && 'source-map',
 
+  mode: develop ? 'development' : 'production',
+
   entry: {
     main: getEntrySources([path.join(src, 'index.tsx')]),
   },
