@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('./package.json');
 const env = process.env.NODE_ENV || 'development';
 const develop = env === 'development';
@@ -21,8 +20,8 @@ module.exports = {
 
   entry: {
     main: [
-      path.join(src, 'polyfills.ts'),
-      path.join(src, 'vendor.ts'),
+      // path.join(src, 'polyfills.ts'),
+      // path.join(src, 'vendor.ts'),
       path.join(src, 'main.ts')
     ],
   },
@@ -67,14 +66,6 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
-      },
-      {
-        test: /\.css$/,
-        exclude: src,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: 'css-loader?sourceMap'
-        })
       },
       {
         test: /\.css$/,

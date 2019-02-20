@@ -1,3 +1,5 @@
+import 'zone.js';
+import 'reflect-metadata';
 import { registerTileAngular } from './lib';
 import { enableProdMode } from '@angular/core';
 import { AppModule } from './app/app.module';
