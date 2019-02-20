@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const pkg = require('./package.json');
+const appid = process.env.WEATHER_APPID || '';
 const env = process.env.NODE_ENV || 'development';
 const develop = env === 'development';
 
@@ -58,6 +59,7 @@ module.exports = {
   plugins: getPlugins([
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env),
+      'process.env.WEATHER_APPID': JSON.stringify(appid),
     }),
   ]),
 };
