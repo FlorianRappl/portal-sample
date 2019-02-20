@@ -4,8 +4,7 @@ import { Home } from './home';
 import { Router } from './router';
 import { NotFound } from './notFound';
 import { Container } from './container';
-import { MiniAppApi, MiniAppPackage, PortalApi, TileComponentProps, PageComponentProps, BaseComponentProps } from '../api';
-import { loadWidget } from '../loadWidget';
+import { MiniAppApi, PortalApi, TileComponentProps, PageComponentProps, BaseComponentProps } from '../api';
 import { wrapComponent, Arg } from '../wrapComponent';
 
 interface EventListeners {
