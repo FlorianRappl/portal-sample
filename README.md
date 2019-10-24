@@ -10,6 +10,10 @@ As a proof of concept (POC) the repository contains three widgets:
 
 Since this is a POC the code is not optimized (e.g., the possibility of extracting Angular and sharing external, lazy loaded packages, is not shown).
 
+## Piral
+
+:rocket: **Update 2019** I've also recreated this sample using [Piral](https://piral.io), which is an awesome framework for building microfrontends. Look for it in the [portal-sample-piral](https://github.com/FlorianRappl/portal-sample-piral) project here on GitHub.
+
 ## Architecture
 
 The architecture of the portal application has been derived in such a way to decouple widgets as much as possible from the main application. Ideally, a widget could be a plain component library that additionally exposes one more function. Realistically, it will be a dedicated npm package that either consumes a component library, or was converted from an existing application.
@@ -57,10 +61,6 @@ npm start
 ```
 
 This command will run two commands concurrently, namely starting the (mock) API server and the webpack dev server. The latter supports hot module reloading, but only for its own contents and not for a widget.
-
-## Demo Time
-
-(tbd)
 
 ## What's Missing
 
